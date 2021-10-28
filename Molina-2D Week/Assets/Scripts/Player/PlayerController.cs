@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public float runSpeed;
     public float jumpSpeed;
 
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,7 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+
     }
 
     void FixedUpdate(){
@@ -33,7 +37,22 @@ public class PlayerController : MonoBehaviour
 
         Vector2 direction = new Vector2(horizontalInput * runSpeed * Time.deltaTime, 0f);
 
-        rigidBody2D.AddForce(direction);
+        rigidBody2D.velocity = new Vector2(horizontalInput * runSpeed *Time.deltaTime, rigidBody2D.velocity.y);
+
+        if(rigidBody2D.velocity.x >= 0){
+            spriteRenderer.flipX = false;
+        }
+        else{
+            spriteRenderer.flipX = true;
+        }
+
+        if(Mathf.Abs(horizontalInput) >0f){
+            animator.SetBool("isRunning", true);
+        }
+        else{
+            animator.SetBool("isRunning", false);
+        }
+
     }
 
     void Jump(){
