@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,14 +10,19 @@ public class PlayerController : MonoBehaviour
 
     public float runSpeed;
     public float jumpSpeed;
+    private int count;
 
     public SpriteRenderer spriteRenderer;
     public Animator animator;
+    public TextMeshProUGUI countText;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
+        count = 0;
+
+        SetCountText();
     }
 
     // Update is called once per frame
@@ -46,7 +52,7 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = true;
         }
 
-        if(Mathf.Abs(horizontalInput) >0f){
+        if(Mathf.Abs(horizontalInput) > 0f){
             animator.SetBool("isRunning", true);
         }
         else{
@@ -57,5 +63,21 @@ public class PlayerController : MonoBehaviour
 
     void Jump(){
         rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, jumpSpeed);
+    }
+
+    void SetCountText(){
+        countText.text = "Score: " + count.ToString();
+    }
+
+    void OnTriggerEnter(Collider other){
+        Debug.Log("Yes");
+        if(other.gameObject.CompareTag("Pickup")){
+            other.gameObject.SetActive(false);
+            count++;
+
+            SetCountText();
+
+            Debug.Log("Yes");
+        }
     }
 }
