@@ -69,15 +69,12 @@ public class PlayerController : MonoBehaviour
         countText.text = "Score: " + count.ToString();
     }
 
-    void OnTriggerEnter(Collider other){
-        Debug.Log("Yes");
+    void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.CompareTag("Pickup")){
             other.gameObject.SetActive(false);
             count++;
 
             SetCountText();
-
-            Debug.Log("Yes");
         }
     }
 }
